@@ -1,0 +1,140 @@
+To which port will the telnet command with the default parameters try to connect?
+Answer: 23
+
+=|> Task 3 • Hypertext Transfer Protocol (HTTP)
+
+telnet 10.10.233.215 80
+Trying 10.10.233.215...
+Connected to 10.10.233.215.
+Escape character is "^]'.
+GET / flag.thm HTTP/1.1
+host: telnet
+HTTP/1.1 200 0K
+Server: nginx/1.18.0 (Ubuntu)
+Date: Thu, 02 Jun 2022 16:59:14 GAT
+Content-Type: application/octet-stream
+Content-Length: 39
+Last-Modified: Wed, 15 Sep 2021 09:19:23 GMT
+Connection: keep-alive
+ETag: "6141ba9b-27"
+Accept-Ranges: bytes
+THM e3eb0a1df437f3f97a64aca5952c8ea0}
+
+=|> Task 4 • File Transfer Protocol (FTP)
+
+ftp 10.10.13.63
+Connected to 10.10.13.63.
+220 (vsFTPd 3.0.5)
+Name (10.10.13.63:root): frank
+331 Please specify the password.
+Password: 
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp> ls
+229 Entering Extended Passive Mode (|||9798|)
+150 Here comes the directory listing.
+drwx------   10 1001     1001         4096 Sep 15  2021 Maildir
+-rw-rw-r--    1 1001     1001         4006 Sep 15  2021 README.txt
+-rw-rw-r--    1 1001     1001           39 Sep 15  2021 ftp_flag.thm
+226 Directory send OK.
+ftp> ascii
+200 Switching to ASCII mode.
+ftp> get README.txt
+local: README.txt remote: README.txt
+229 Entering Extended Passive Mode (|||13223|)
+150 Opening BINARY mode data connection for README.txt (4006 bytes).
+100% |********************************************|  4006        2.89 MiB/s    00:00 ETA
+226 Transfer complete.
+WARNING! 9 bare linefeeds received in ASCII mode.
+File may not have transferred correctly.
+4006 bytes received in 00:00 (2.11 MiB/s)
+ftp> get ftp_flag.thm
+local: ftp_flag.thm remote: ftp_flag.thm
+229 Entering Extended Passive Mode (|||28346|)
+150 Opening BINARY mode data connection for ftp_flag.thm (39 bytes).
+100% |********************************************|    39       79.34 KiB/s    00:00 ETA
+226 Transfer complete.
+WARNING! 2 bare linefeeds received in ASCII mode.
+File may not have transferred correctly.
+39 bytes received in 00:00 (24.15 KiB/s)
+ftp> bye
+221 Goodbye.
+
+Exit the FTP client: => Now you’re back in your normal terminal (outside FTP)ls
+Desktop    Downloads  Pictures  README.txt  Videos  ftp_flag.thm
+Documents  Music      Public    Templates   ascii   ls
+                                                                                         
+┌──(root㉿kali)-[~]
+└─# cat ftp_flag.thm
+THM{364db6ad0e3ddfe7bf0b1870fb06fbdf}
+
+=|>TASK 5
+telnet 10.10.10.189 25
+Trying 10.10.10.189...
+Connected to 10.10.10.189.
+Escape character is '^]'.
+220 bento.localdomain ESMTP Postfix THM{5b31ddfc0c11d81eba776e983c35e9b5}
+
+=|>[Question 6.1] Connect to the VM (<target>) at the POP3 port. Authenticate using the username frank and password D2xc9CgD. What is the response you get to STAT?
+
+telnet 10.10.10.189 110
+Trying 10.10.10.189...
+Connected to 10.10.10.189.
+Escape character is '^]'.
++OK Hello there.
+USER frank
++OK Password required.
+PASS D2xc9CgD
++OK logged in.
+STAT
++OK 0 0
+=|> [Question 6.2] How many email messages are available to download via IMAP on 10.10.38.214?
+
+Answer: 0
+
+=|> [Question 7.1] What is the default port used by IMAP?
+Answer: 143
+
+telnet 10.10.10.189 143
+Trying 10.10.10.189...
+Connected to 10.10.10.189.
+Escape character is '^]'.
+* OK [CAPABILITY IMAP4rev1 UIDPLUS CHILDREN NAMESPACE THREAD=ORDEREDSUBJECT THREAD=REFERENCES SORT QUOTA IDLE ACL ACL2=UNION STARTTLS ENABLE UTF8=ACCEPT] Courier-IMAP ready. Copyright 1998-2018 Double Precision, Inc.  See COPYING for distribution information.
+c1 LOGIN frank D2xc9CgD
+* OK [ALERT] Filesystem notification initialization error -- contact your mail administrator (check for configuration errors with the FAM/Gamin library)
+c1 OK LOGIN Ok.
+c2 LIST "" "*"
+* LIST (\HasNoChildren) "." "INBOX.Trash"
+* LIST (\HasNoChildren) "." "INBOX.Drafts"
+* LIST (\HasNoChildren) "." "INBOX.Templates"
+* LIST (\HasNoChildren) "." "INBOX.Sent"
+* LIST (\Unmarked \HasChildren) "." "INBOX"
+c2 OK LIST completed
+c3 EXAMINE INBOX
+* FLAGS (\Draft \Answered \Flagged \Deleted \Seen \Recent)
+* OK [PERMANENTFLAGS ()] No permanent flags permitted
+* 0 EXISTS
+* 0 RECENT
+* OK [UIDVALIDITY 631694851] Ok
+* OK [MYRIGHTS "acdilrsw"] ACL
+c3 OK [READ-ONLY] Ok
+c4 LOGOUT
+* BYE Courier-IMAP server shutting down
+c4 OK LOGOUT completed
+Connection closed by foreign host.
+
+It is good to remember the default port number for common protocols. Below is a summary of the protocols we covered, sorted in alphabetical order, along with their default port numbers.
+Protocol	TCP Port	Application(s)	Data Security
+FTP	21	File Transfer	Cleartext
+HTTP	80	Worldwide Web	Cleartext
+IMAP	143	Email (MDA)	Cleartext
+POP3	110	Email (MDA)	Cleartext
+SMTP	25	Email (MTA)	Cleartext
+Telnet	23	Remote Access	Cleartext
+
+
+
+
+
+
